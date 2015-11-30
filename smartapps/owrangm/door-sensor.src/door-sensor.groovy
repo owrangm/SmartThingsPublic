@@ -2,7 +2,7 @@ definition(
 name: "door_sensor",
 namespace: "owrangm",
 author: "Maryam",
-description: "door sensor",
+description: "gets state of door sensor",
 category: "Convenience",
 //parent: "owrangm: CCE",
 iconUrl: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience.png",

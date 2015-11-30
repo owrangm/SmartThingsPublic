@@ -8,7 +8,6 @@ definition(
     iconX2Url: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience@2x.png",
     iconX3Url: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience@2x.png")
 
-
 preferences {
   // The parent app preferences are pretty simple: just use the app input for the child app.
   page(name: "mainPage", title: "Simple Automations", install: true, uninstall: true,submitOnChange: true) {
@@ -16,8 +15,10 @@ preferences {
       app(name: "door_sensor", appName: "door sensor", namespace: "owrangm", title: "link to CCE devices", multiple: true)
     }
   }
+  section("Monitor this door or window") {
+    input "contacts", "capability.contactSensor"
+  }
 }
-
 
 mappings {
   path("/contacts") {
@@ -30,7 +31,8 @@ mappings {
 def listContacts()
 { 
   def theChild = findChildAppByName("door_sensor")
-  theChild.listContacts()
+  log.debug "Child: ${theChild}"
+  theChild.listContactSensors()
 }
 
 def installed() {
