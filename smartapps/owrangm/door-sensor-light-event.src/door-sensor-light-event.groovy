@@ -78,7 +78,7 @@ void updateSwitches() {
   //return "success"
 }
 
-def doorSensorHandler(evt) {
+def doorSensorHandler_test(evt) {
     log.debug "door state changed!"
     log.debug "event name: ${evt.name}"
     log.debug "event value: ${evt.value}"
@@ -100,6 +100,34 @@ def doorSensorHandler(evt) {
     } catch(e) { 
       log.error "could not post to localhost"
     }
+    
+}
+
+def doorSensorHandler(evt) {
+    log.debug "door state changed!"
+    log.debug "event name: ${evt.name}"
+    log.debug "event value: ${evt.value}"
+    // call CCE.event 
+    
+  def params = [
+    uri: "http://requestb.in/oezjucof",
+    body: [
+      event: "${evt.name}",
+      value: "${evt.value}"
+    ]
+  ]
+    
+  try 
+  { 
+    httpPostJson(params) { resp -> 
+      resp.headers.each {
+        log.debug "${it.name} : ${it.value}"
+        }
+        log.debug "response contentType: ${resp.contentType}"
+      }
+  } catch(e) { 
+    log.error "could not post to postcatcher: $e"
+  }
     
 }
 
