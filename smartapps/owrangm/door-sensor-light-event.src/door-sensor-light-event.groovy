@@ -74,6 +74,8 @@ void updateSwitches() {
   // (note we can do this on the array - the command will be invoked on every element
   switches."$command"()
   }
+  
+  //return "success"
 }
 
 def doorSensorHandler(evt) {
@@ -83,8 +85,8 @@ def doorSensorHandler(evt) {
     // call CCE.event 
     
     def params = [
-      uri: "http://216.23.170.132:4567", 
-      path: "/event"
+      uri: "http://httpbin.org", 
+      path: "/get"
     ]
     
     try 
