@@ -10,7 +10,7 @@ iconX3Url: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience@
 oauth: [displayName: "web services tutorial ", displayLink: "http://localhost:4567"])
 preferences {
   section ("Allow external service to control these things...") {
-    input "switches", "capability.switch", multiple: true, required: true
+    input "switches", "capability.colorControl", multiple: true, required: true
   }
   section("Monitor this door or window") {
     input "contacts", "capability.contactSensor"
@@ -61,6 +61,8 @@ void updateSwitches() {
 
   // use the built-in request object to get the command parameter
   def command = params.command
+  def value = [switch: "on", hue: hueColor, saturation: saturation, level: level as Integer ?: 100]
+  
   if (command) {
   // check that the switch supports the specified command
   // If not, return an error using httpError, providing a HTTP status code.
@@ -72,7 +74,16 @@ void updateSwitches() {
   // all switches have the comand
   // execute the command on all switches
   // (note we can do this on the array - the command will be invoked on every element
-  switches."$command"()
+  //switches."$command"()
+  
+  if("on" == "$command") {
+    switches.setHue(70)
+    switches.setSaturation(100)  // Set the color to something fancy
+    switches.setLevel(100)  // Make sure the light brightness is 100%
+    switches.on()  // Turn the bulb on when open (this method does not come directly from the colorControl capability)
+  } else {
+    switches.off()  // Turn the bulb off when closed (this method does not come directly from the colorControl capability)
+  }
   }
 }
 
